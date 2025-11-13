@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💱 Global Currency Converter & Live Rates</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; transition: all 0.3s ease; }
+
+    body {
+      margin: 0;
+      background-color: #0a192f;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 80px;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(17, 25, 40, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    nav h2 {
+      color: #64ffda;
+      margin: 0;
+      text-shadow: 0 0 10px #64ffda70;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #ccd6f6;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #64ffda;
+      transition: width 0.4s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    nav ul li a:hover {
+      color: #64ffda;
+    }
+
+    /* Main Converter Container */
+    .container, .rates-section {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(25px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 900px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      margin-top: 40px;
+    }
+
+    .container { width: 420px; }
+
+    h1, h2 {
+      font-family: "Orbitron", sans-serif;
+      color: #64ffda;
+      text-shadow: 0 0 10px #64ffda40;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      font-family: "Poppins", sans-serif;
+    }
+
+    input, select {
+      background: rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    button {
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Orbitron", sans-serif;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.6);
+    }
+
+    .swap-btn {
+      font-size: 1.8em;
+      background: none;
+      border: none;
+      color: #64ffda;
+      cursor: pointer;
+    }
+
+    .swap-btn:hover {
+      transform: rotate(180deg);
+    }
+
+    .result {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 15px;
+      font-weight: bold;
+      color: #64ffda;
+      font-size: 1.15rem;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: #e2e8f0;
+    }
+
+    th {
+      color: #64ffda;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    canvas {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      padding: 10px;
+      font-family: "Raleway", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>🌍 Global Converter</h2>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#rates">Rates</a></li>
+      <li><a href="#chart">Chart</a></li>
+      <li><a href="analysis.html">Analysis</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>💱 Currency Converter</h1>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <select id="from"></select>
+    <button class="swap-btn" onclick="swapCurrencies()">🔄</button>
+    <select id="to"></select>
+    <button onclick="convertCurrency()">Convert Now</button>
+    <div id="result" class="result">Result will appear here</div>
+  </div>
+
+  <div class="rates-section" id="rates">
+    <h2>📈 Live Exchange Rates</h2>
+    <table id="rateTable">
+      <thead><tr><th>Currency</th><th>Rate</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="rates-section" id="chart">
+    <h2>📊 Exchange Rate Chart</h2>
+    <canvas id="rateChart" width="800" height="400"></canvas>
+  </div>
+
+  <footer>⚡ Powered by ExchangeRate API | Designed by <b>Priyanshu Thakur</b></footer>
+
+  <script>
+    const API_URL = "https://v6.exchangerate-api.com/v6/f5c56cb48628d891bbdbe82f/latest/USD";
+    let exchangeRates = {};
+    const currencies = {
+      "USD": "United States Dollar 🇺🇸", "INR": "Indian Rupee 🇮🇳", "EUR": "Euro 🇪🇺",
+      "GBP": "British Pound 🇬🇧", "JPY": "Japanese Yen 🇯🇵", "AUD": "Australian Dollar 🇦🇺",
+      "CAD": "Canadian Dollar 🇨🇦", "CNY": "Chinese Yuan 🇨🇳", "SGD": "Singapore Dollar 🇸🇬",
+      "CHF": "Swiss Franc 🇨🇭", "NZD": "New Zealand Dollar 🇳🇿", "AED": "UAE Dirham 🇦🇪",
+      "ZAR": "South African Rand 🇿🇦", "BRL": "Brazilian Real 🇧🇷", "MXN": "Mexican Peso 🇲🇽",
+      "RUB": "Russian Ruble 🇷🇺", "SEK": "Swedish Krona 🇸🇪", "NOK": "Norwegian Krone 🇳🇴",
+      "KRW": "South Korean Won 🇰🇷", "THB": "Thai Baht 🇹🇭", "IDR": "Indonesian Rupiah 🇮🇩"
+    };
+
+    async function loadCurrencies() {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      exchangeRates = data.conversion_rates;
+      const fromSelect = document.getElementById("from");
+      const toSelect = document.getElementById("to");
+
+      Object.keys(currencies).forEach(code => {
+        const opt1 = document.createElement("option");
+        const opt2 = document.createElement("option");
+        opt1.value = opt2.value = code;
+        opt1.textContent = currencies[code];
+        opt2.textContent = currencies[code];
+        fromSelect.appendChild(opt1);
+        toSelect.appendChild(opt2);
+      });
+
+      fromSelect.value = "USD";
+      toSelect.value = "INR";
+      updateRatesTable();
+      drawChart();
+    }
+
+    function updateRatesTable() {
+      const tbody = document.querySelector("#rateTable tbody");
+      tbody.innerHTML = "";
+      Object.keys(currencies).forEach(code => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${currencies[code]}</td><td>${exchangeRates[code].toFixed(3)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+      if (isNaN(amount) || amount <= 0) return;
+      const usdValue = amount / exchangeRates[from];
+      const converted = usdValue * exchangeRates[to];
+      document.getElementById("result").innerHTML =
+        `💹 <b>${amount}</b> ${currencies[from]} = 
+         <b>${converted.toFixed(2)}</b> ${currencies[to]}`;
+    }
+
+    function swapCurrencies() {
+      const from = document.getElementById("from");
+      const to = document.getElementById("to");
+      const temp = from.value;
+      from.value = to.value;
+      to.value = temp;
+    }
+
+    function drawChart() {
+      const ctx = document.getElementById("rateChart").getContext("2d");
+      const labels = Object.keys(currencies).slice(0, 10);
+      const dataPoints = labels.map(c => exchangeRates[c]);
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Exchange Rate vs USD',
+            data: dataPoints,
+            backgroundColor: 'rgba(37,99,235,0.6)',
+            borderColor: 'rgba(124,58,237,1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#e2e8f0' } } },
+          scales: {
+            x: { ticks: { color: '#e2e8f0' } },
+            y: { ticks: { color: '#e2e8f0' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    window.onload = loadCurrencies;
+  </script>
+</body>
+</html>
