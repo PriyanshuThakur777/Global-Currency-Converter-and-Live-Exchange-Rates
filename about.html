@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌍 About - Global Currency Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; transition: all 0.3s ease; }
+
+    body {
+      margin: 0;
+      background-color: #0a192f;
+      color: #e2e8f0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(17, 25, 40, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    nav h2 {
+      color: #64ffda;
+      margin: 0;
+      text-shadow: 0 0 10px #64ffda70;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #ccd6f6;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #64ffda;
+      transition: width 0.4s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    nav ul li a:hover {
+      color: #64ffda;
+    }
+
+    /* About Section */
+    .about-container {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 900px;
+      margin-top: 50px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .about-container h1 {
+      font-family: "Orbitron", sans-serif;
+      color: #64ffda;
+      text-shadow: 0 0 10px #64ffda50;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .about-container p {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .team-section {
+      margin-top: 40px;
+    }
+
+    .team-section h2 {
+      color: #64ffda;
+      font-family: "Orbitron", sans-serif;
+      text-shadow: 0 0 10px #64ffda40;
+    }
+
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .member {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 20px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    .member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #64ffda;
+      margin-bottom: 15px;
+    }
+
+    .member h3 {
+      color: #64ffda;
+      margin: 5px 0;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .member p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      padding: 10px;
+      font-family: "Raleway", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>🌎 Global Converter</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#rates">Rates</a></li>
+      <li><a href="index.html#chart">Chart</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="about-container">
+    <h1>About Global Currency Converter</h1>
+    <img src="https://img.freepik.com/free-vector/gradient-forex-trading-concept-illustration_23-2149152955.jpg" alt="Currency Exchange Image">
+    <p>
+      Welcome to the <span class="highlight">Global Currency Converter</span> — your all-in-one platform for accurate and real-time currency conversions. 
+      Our tool helps you convert over 50+ global currencies with live exchange rates powered by the 
+      <span class="highlight">ExchangeRate API</span>.
+    </p>
+    <p>
+      Designed with a modern interface, our converter offers instant results, live rate tables, and 
+      dynamic charts — all crafted to provide financial clarity for travelers, businesses, and currency enthusiasts.
+    </p>
+    <p>
+      💡 Whether you're planning a trip abroad or managing international transactions, 
+      <span class="highlight">Global Converter</span> ensures you stay updated with the latest exchange trends.
+    </p>
+    <img src="https://img.freepik.com/free-vector/financial-growth-flat-concept_23-2149074744.jpg" alt="Global finance illustration">
+    <p>
+      Created by <b>Priyanshu Thakur</b>, this project combines creativity, design, and real-world API integration 
+      to deliver an interactive learning experience in web programming using <span class="highlight">HTML, CSS, and JavaScript</span>.
+    </p>
+  </div>
+
+  <footer>⚡ Powered by ExchangeRate API | Designed by <b>Priyanshu Thakur</b></footer>
+</body>
+</html>
